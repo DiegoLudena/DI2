@@ -97,7 +97,7 @@ public class DI1Controlador implements Initializable {
             
         } else {
             // Mostrar un mensaje de advertencia si no se selecciona un usuario
-            System.out.println("Por favor, seleccione un usuario para eliminar.");
+        	salida.setText("Por favor, seleccione un usuario para eliminar.");
         }
     }
 
