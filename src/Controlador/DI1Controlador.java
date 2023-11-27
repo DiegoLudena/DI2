@@ -3,11 +3,16 @@ package Controlador;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Modelo.Usuario;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class DI1Controlador implements Initializable {
@@ -19,14 +24,45 @@ public class DI1Controlador implements Initializable {
 	@FXML
 	private TextField entrada;
 	
+	 // Lista observable para almacenar usuarios
+    private ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+
+	
+    @FXML
+    private TableView<Usuario> tablaUsuarios;
+    @FXML
+    private TableColumn<Usuario, String> columnaNombre;
+    @FXML
+    private TableColumn<Usuario, String> columnaApellido1;
+    @FXML
+    private TableColumn<Usuario, String> columnaApellido2;
+	
 	
     public void handleButtonAction(ActionEvent event) {
         //Compruebo que el botón funcione
     	System.out.println("Guardar nombre");
-    	//Tomo la entrada del TextField entrada como "nombre"
+    	/* EJERCICIO !
+    	 * //Tomo la entrada del TextField entrada como "nombre"
+    	 
     	String nombre = entrada.getText();
     	//Cambio el texto del label salida con el texto
     	salida.setText("¡Hola, "+ nombre + "!");
+    	*/
+        // Obtener el nombre completo del TextField
+        String nombreCompleto = entrada.getText();
+
+        // Crear un objeto Usuario
+        Usuario usuario = new Usuario(nombreCompleto);
+        
+        // Agregar el usuario a la lista
+        listaUsuarios.add(usuario);
+
+        // Actualizar la tabla
+        actualizarTablaUsuarios();
+        
+     // Mostrar un saludo personalizado
+        salida.setText("¡Hola, " + usuario.getNombre() + " " + usuario.getApellido1() +" " + usuario.getApellido2() + "!");
+ 
     }
     
     
@@ -35,5 +71,11 @@ public class DI1Controlador implements Initializable {
 		// TODO Auto-generated method stub
 		System.out.println("Inicializo controlador");
 	}
-
+    private void actualizarTablaUsuarios() {
+        // Vincular la lista observable a la tabla y sus columnas
+        tablaUsuarios.setItems(listaUsuarios);
+        columnaNombre.setCellValueFactory(cellData -> cellData.getValue().nombreProperty());
+        columnaApellido1.setCellValueFactory(cellData -> cellData.getValue().apellido1Property());
+        columnaApellido2.setCellValueFactory(cellData -> cellData.getValue().apellido2Property());
+    }
 }
