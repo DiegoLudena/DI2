@@ -71,6 +71,7 @@ public class DI1Controlador implements Initializable {
 		// TODO Auto-generated method stub
 		System.out.println("Inicializo controlador");
 	}
+	
     private void actualizarTablaUsuarios() {
         // Vincular la lista observable a la tabla y sus columnas
         tablaUsuarios.setItems(listaUsuarios);
@@ -78,4 +79,27 @@ public class DI1Controlador implements Initializable {
         columnaApellido1.setCellValueFactory(cellData -> cellData.getValue().apellido1Property());
         columnaApellido2.setCellValueFactory(cellData -> cellData.getValue().apellido2Property());
     }
+    
+    public void handleEliminarButtonAction(ActionEvent event) {
+        // Obtener el usuario seleccionado
+        Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
+
+        // Verificar que se haya seleccionado un usuario
+        if (usuarioSeleccionado != null) {
+            // Eliminar el usuario de la lista
+            listaUsuarios.remove(usuarioSeleccionado);
+
+            // Actualizar la tabla
+            actualizarTablaUsuarios();
+            
+            salida.setText("Eliminado usuario " + usuarioSeleccionado.getNombre() + " " + usuarioSeleccionado.getApellido1() +" " + usuarioSeleccionado.getApellido2());
+
+            
+        } else {
+            // Mostrar un mensaje de advertencia si no se selecciona un usuario
+            System.out.println("Por favor, seleccione un usuario para eliminar.");
+        }
+    }
+
+    
 }

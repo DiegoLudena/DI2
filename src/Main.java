@@ -12,7 +12,7 @@ public class Main extends Application{
 	        Parent root = FXMLLoader.load(getClass().getResource("Vista/DI1Vista.fxml"));
 	        //Creo la escena
 	    	primaryStage.setTitle("Tarea Evaluable 1");
-	        primaryStage.setScene(new Scene(root, 600, 600));
+	        primaryStage.setScene(new Scene(root, 600, 500));
 	        primaryStage.show();
 	    }
 
