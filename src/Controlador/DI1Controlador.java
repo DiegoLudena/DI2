@@ -9,7 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -86,15 +88,26 @@ public class DI1Controlador implements Initializable {
 
         // Verificar que se haya seleccionado un usuario
         if (usuarioSeleccionado != null) {
-            // Eliminar el usuario de la lista
-            listaUsuarios.remove(usuarioSeleccionado);
+        	
+        	// Crear un mensaje de confirmacion
+        	Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        	alerta.setTitle("Confirmación");
+        	alerta.setHeaderText("¿Quieres eliminar al usuario " + usuarioSeleccionado.getNombre() + " "
+        			+ usuarioSeleccionado.getApellido1() +" " + usuarioSeleccionado.getApellido2() + "?");
+            // Mostrar el diálogo de confirmación y esperar la respuesta
+            alerta.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    // Eliminar el usuario de la lista
+                    listaUsuarios.remove(usuarioSeleccionado);
 
-            // Actualizar la tabla
-            actualizarTablaUsuarios();
-            
-            salida.setText("Eliminado usuario " + usuarioSeleccionado.getNombre() + " " + usuarioSeleccionado.getApellido1() +" " + usuarioSeleccionado.getApellido2());
+                    // Actualizar la tabla
+                    actualizarTablaUsuarios();
 
-            
+                    // Mostrar un mensaje en el Label de salida
+                    salida.setText("Eliminado usuario: " + usuarioSeleccionado.getNombre() + " " +
+                            usuarioSeleccionado.getApellido1() + " " + usuarioSeleccionado.getApellido2());
+                }
+            });
         } else {
             // Mostrar un mensaje de advertencia si no se selecciona un usuario
         	salida.setText("Por favor, seleccione un usuario para eliminar.");
